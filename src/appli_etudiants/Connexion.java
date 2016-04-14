@@ -6,6 +6,7 @@ package appli_etudiants;
 
 import com.mysql.jdbc.Connection;
 import com.sun.org.apache.xpath.internal.axes.SelfIteratorNoPredicate;
+import java.awt.Frame;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.DriverManager;
@@ -16,13 +17,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-
+import javax.swing.JDialog;
 /**
  *
  * @author nc
  */
 public class Connexion extends javax.swing.JDialog {
+    
     private InterfaceGraphique fenetre;
+    private Frame JDialog;
+    
     /**
      * Creates new form Connexion
      */
@@ -54,6 +58,7 @@ public class Connexion extends javax.swing.JDialog {
         jLabelIdentifiant = new javax.swing.JLabel();
         jTextFieldIdentifiant = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jButtonInscription = new javax.swing.JButton();
 
         org.jdesktop.layout.GroupLayout jDialog1Layout = new org.jdesktop.layout.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -78,8 +83,6 @@ public class Connexion extends javax.swing.JDialog {
             }
         });
 
-        jPassMDP.setDragEnabled(false);
-
         jLabelMDP.setText("Mot de passe");
 
         jLabelIdentifiant.setText("Identifiant");
@@ -87,28 +90,35 @@ public class Connexion extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("Saisissez vos informations");
 
+        jButtonInscription.setText("S'inscrire");
+        jButtonInscription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInscriptionActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                    .add(layout.createSequentialGroup()
+                        .add(11, 11, 11)
                         .add(jButtonConnecter)
-                        .add(123, 123, 123))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(18, 18, 18)
+                        .add(jButtonInscription))
+                    .add(jLabel1)
+                    .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel1)
-                            .add(layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(jLabelIdentifiant)
-                                    .add(jLabelMDP))
-                                .add(18, 18, 18)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(jTextFieldIdentifiant)
-                                    .add(jPassMDP, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))))
-                        .add(59, 59, 59))))
+                            .add(jLabelIdentifiant)
+                            .add(jLabelMDP))
+                        .add(18, 18, 18)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jTextFieldIdentifiant)
+                            .add(jPassMDP, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))))
+                .add(59, 59, 59))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -124,7 +134,9 @@ public class Connexion extends javax.swing.JDialog {
                     .add(jPassMDP, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabelMDP))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 13, Short.MAX_VALUE)
-                .add(jButtonConnecter)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButtonConnecter)
+                    .add(jButtonInscription))
                 .add(24, 24, 24))
         );
 
@@ -132,6 +144,7 @@ public class Connexion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonConnecterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnecterActionPerformed
+      
         // TODO add your handling code here:
         /**
          * Code ici qui va interroger la base de données
@@ -163,13 +176,29 @@ public class Connexion extends javax.swing.JDialog {
                 // ici on appelle md5 membre static de la classe outils
                 mdp=Outils.md5(mdp);
             
-                ResultSet lignesRetournees=requete.executeQuery("select * from Utilisateurs where identifiant='"+identifiant+"' and mot_de_passe='"+mdp+"'");
+                ResultSet lignesRetournees=requete.executeQuery("select * from Utilisateurs where identifiant='"+identifiant+"' and password='"+mdp+"'");
                 if (lignesRetournees.next()){
-                    String nom=lignesRetournees.getString("nom");
-                    //Modifications de la Mission 2 à placer ici
                     
+                   String id=lignesRetournees.getString("identifiant");
+//                    String password=lignesRetournees.getString("password");
+//                    String nom=lignesRetournees.getString("nom");
+//                    String prenom=lignesRetournees.getString("prenom");
+//                    String mail=lignesRetournees.getString("mail");
+//                    String date_de_naissance=lignesRetournees.getString("date_de_naissance");
+//                    String adresse_rue=lignesRetournees.getString("adresse_rue");
+//                    String code_postal=lignesRetournees.getString("code_postal");
+//                    String ville=lignesRetournees.getString("ville");
+//                    String tel_dom=lignesRetournees.getString("tel_dom");
+//                    String tel_pro=lignesRetournees.getString("tel_pro");
+//                    String site_web=lignesRetournees.getString("site_web");
+//                    String annee_entree_promo=lignesRetournees.getString("annee_entree_promo");
+//                    String annee_sortie_promo=lignesRetournees.getString("annee_sortie_promo");
+
+                    //Modifications de la Mission 2 à placer ici identifiant, password, nom, prenom, mail, date_de_naissance, adresse_rue, code_postal, ville, tel_pro, tel_pro, site_web, annee_
                     
-                    this.fenetre.connecte(nom);
+                    Etudiants etudiant = DaoS4.etudiantsDao().queryForId(id);
+
+                    this.fenetre.connecte(etudiant);
                     this.setVisible(false);
                     this.fenetre.majConnexion();
                     
@@ -191,6 +220,10 @@ public class Connexion extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jButtonConnecterActionPerformed
+
+    private void jButtonInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInscriptionActionPerformed
+      
+    }//GEN-LAST:event_jButtonInscriptionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,6 +268,7 @@ public class Connexion extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConnecter;
+    private javax.swing.JButton jButtonInscription;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelIdentifiant;

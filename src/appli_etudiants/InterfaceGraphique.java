@@ -4,40 +4,83 @@
  */
 package appli_etudiants;
 
+import appli_etudiants.CV_element.CVetudiant;
 import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Frame;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 
 /**
  *
  * @author nc
  */
 public class InterfaceGraphique extends javax.swing.JFrame {
+
     /**
      * attribut qui indique si l'etudiant est connecté ou non
      */
     private boolean connecte;
     private Etudiants infoEtudiant;
-    
+    Personne lesPersonnes;
     /**
      * interface graphique
      */
     private Connexion fenConnexion;
     private Deconnexion fenDeconnexion;
+    private Suppression fenSuppression;
+    private CVetudiant fenCV; 
+    private PanneauPhoto panneauPhoto;
+    private Frame JDialog;
+    private int bouton_push;
 
     /**
      * constructeur : Creates new form InterfaceGraphique
-     * 
+     *
      */
     public InterfaceGraphique() {
         initComponents();
+
         //par defaut, la connexion est inactive
-        this.connecte=false;
+        this.connecte = false;
         //element du menu de deconnexion grisé
         this.majConnexion();
         //centrage
         this.setLocationRelativeTo(null);
         //titre 
         this.setTitle("Gestion des étudiants du bts sio");
+        jButtonSauvegarder.setVisible(false);
+        jButtonChangePassword.setVisible(false);
+        jButtonSuppression.setVisible(false);
+        bouton_push = 0;
+        jLabelPassword.setVisible(false);
+        jTextFieldPassword.setVisible(false);
 
+//        lesPersonnes = DaoS4.personneDao().queryForAll();
+//        
+//        if (lesPersonnes != null) {
+//            unePersonne = new Personne();
+//
+//            jTextFieldId.setText("1");
+//            jTextFieldNom.setText("D'Arme");
+//            jTextFieldPrenom.setText("Jean");
+//            jTextFieldCourriel.setText("");
+//            jTextFieldTelDom.setText("0102030405");
+//            jTextFieldVille.setText("Perpignan");
+//
+//            unePersonne.setIdentifiant(jTextFieldId.getText());
+//            unePersonne.setNom(jTextFieldNom.getText());
+//            unePersonne.setPrenom(jTextFieldPrenom.getText());
+//            unePersonne.setCourriel(jTextFieldCourriel.getText());
+//            unePersonne.setTelDom(jTextFieldTelDom.getText());
+//            unePersonne.setVille(jTextFieldVille.getText());
+//
+//            DaoS4.personneDao().createIfNotExists(unePersonne);
+//            lesPersonnes = DaoS4.personneDao().queryForAll();
+//        }
     }
 
     /**
@@ -50,25 +93,379 @@ public class InterfaceGraphique extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jTextField1 = new javax.swing.JTextField();
+        jSlider1 = new javax.swing.JSlider();
         desktopPane = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldIdentifiant = new javax.swing.JTextField();
+        jTextFieldNom = new javax.swing.JTextField();
+        jTextFieldPrenom = new javax.swing.JTextField();
+        jTextFieldMail = new javax.swing.JTextField();
+        jTextFieldDateDeNaissance = new javax.swing.JTextField();
+        jTextFieldAdresseRue = new javax.swing.JTextField();
+        jTextFieldCodePostal = new javax.swing.JTextField();
+        jTextFieldVille = new javax.swing.JTextField();
+        jTextFieldTelDom = new javax.swing.JTextField();
+        jTextFieldTelPro = new javax.swing.JTextField();
+        jTextFieldSiteWeb = new javax.swing.JTextField();
+        jTextFieldAnneeEntreePromotion = new javax.swing.JTextField();
+        jTextFieldAnneeSortiePromotion = new javax.swing.JTextField();
+        jButtonInscription = new javax.swing.JButton();
+        jButtonConnection = new javax.swing.JButton();
+        jButtonSauvegarder = new javax.swing.JButton();
+        jLabelResume = new javax.swing.JLabel();
+        jButtonChangePassword = new javax.swing.JButton();
+        jLabelPassword = new javax.swing.JLabel();
+        jTextFieldPassword = new javax.swing.JTextField();
+        jButtonSuppression = new javax.swing.JButton();
+        jButtonAccesCV = new javax.swing.JButton();
         nomMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        inscriptionMenuItem = new javax.swing.JMenuItem();
         connexionMenuItem = new javax.swing.JMenuItem();
         deconnexionMenuItem = new javax.swing.JMenuItem();
         SortieMenuItem = new javax.swing.JMenuItem();
+        jMenuInformationCV = new javax.swing.JMenu();
+        jMenuItemExperiencePro = new javax.swing.JMenuItem();
+        jMenuItemFormation = new javax.swing.JMenuItem();
+        jMenuItemCompetence = new javax.swing.JMenuItem();
+        jMenuItemLangue = new javax.swing.JMenuItem();
+        jMenuItemCentresInteret = new javax.swing.JMenuItem();
+        jMenuItemPhoto = new javax.swing.JMenuItem();
         aideMenu = new javax.swing.JMenu();
         aproposMenuItem = new javax.swing.JMenuItem();
         nomjMenu = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jTextField1.setText("jTextField1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(200, 200, 200));
 
         desktopPane.setBorder(new javax.swing.border.MatteBorder(null));
-        desktopPane.setBounds(new java.awt.Rectangle(200, 400, 800, 400));
+
+        jPanel1.setBackground(new java.awt.Color(200, 200, 200));
+
+        jLabel15.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel15.setText("Année de sortie promotion :");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel14.setText("Année d'entrée promotion :");
+
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel13.setText("Site Web :");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel12.setText("Téléphone Professionnelle :");
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel11.setText("Téléphone Domicile :");
+
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel10.setText("Ville :");
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel9.setText("Code Postal :");
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel8.setText("Adresse (rue) :");
+
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel7.setText("Date de naissance :");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel6.setText("Mail :");
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel5.setText("Prénom :");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel4.setText("Nom :");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(40, 0, 0));
+        jLabel2.setText("Identifiant :");
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 21)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(50, 100, 200));
+        jLabel1.setText("Infos utilisateurs :");
+
+        jTextFieldIdentifiant.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldIdentifiant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldIdentifiantActionPerformed(evt);
+            }
+        });
+
+        jTextFieldNom.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldPrenom.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldMail.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldDateDeNaissance.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldAdresseRue.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextFieldAdresseRue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldAdresseRueActionPerformed(evt);
+            }
+        });
+
+        jTextFieldCodePostal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldVille.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldTelDom.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldTelPro.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldSiteWeb.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldAnneeEntreePromotion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jTextFieldAnneeSortiePromotion.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jButtonInscription.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButtonInscription.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appli_etudiants/pics/bg-nouveau-onglet-icone-9296-32.png"))); // NOI18N
+        jButtonInscription.setText("S'inscrire");
+        jButtonInscription.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonInscription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInscriptionActionPerformed(evt);
+            }
+        });
+
+        jButtonConnection.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButtonConnection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appli_etudiants/pics/connexion-directeur-reseau-icone-7317-32.png"))); // NOI18N
+        jButtonConnection.setText("Se connecter");
+        jButtonConnection.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonConnection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConnectionActionPerformed(evt);
+            }
+        });
+
+        jButtonSauvegarder.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButtonSauvegarder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appli_etudiants/pics/disque-charger-sauvegarder-icone-9402-32.png"))); // NOI18N
+        jButtonSauvegarder.setText("Sauvegarder les infos");
+        jButtonSauvegarder.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonSauvegarder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSauvegarderActionPerformed(evt);
+            }
+        });
+
+        jButtonChangePassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButtonChangePassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appli_etudiants/pics/serrure-securise-icone-8649-32.png"))); // NOI18N
+        jButtonChangePassword.setText("Changer le mot de passe");
+        jButtonChangePassword.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonChangePasswordActionPerformed(evt);
+            }
+        });
+
+        jLabelPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabelPassword.setText("Mot de passe :");
+
+        jTextFieldPassword.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jButtonSuppression.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jButtonSuppression.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appli_etudiants/pics/supprimer-un-utilisateur-icone-4165-32.png"))); // NOI18N
+        jButtonSuppression.setText("Supprimer ce compte");
+        jButtonSuppression.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonSuppression.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuppressionActionPerformed(evt);
+            }
+        });
+
+        jButtonAccesCV.setText("Acceder à votre CV");
+        jButtonAccesCV.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButtonAccesCV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAccesCVActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(148, 148, 148)
+                        .add(jLabelResume, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(174, 174, 174))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel9)
+                            .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 79, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel13)
+                            .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 159, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel4)
+                            .add(jLabel5)
+                            .add(jLabel6)
+                            .add(jLabel7)
+                            .add(jLabel8)
+                            .add(jLabel10)
+                            .add(jLabel11)
+                            .add(jLabel14)
+                            .add(jLabel15)
+                            .add(jLabelPassword))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 93, Short.MAX_VALUE)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldCodePostal, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldIdentifiant, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jTextFieldVille, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldPassword, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldAnneeSortiePromotion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldAnneeEntreePromotion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(jTextFieldSiteWeb)
+                                .add(jTextFieldAdresseRue)
+                                .add(jTextFieldMail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 176, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldTelPro, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldTelDom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldDateDeNaissance, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 118, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldPrenom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextFieldNom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(74, 74, 74))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(18, 18, 18)
+                        .add(jLabel1)
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(121, 121, 121)
+                                .add(jButtonInscription, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 129, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(16, 16, 16)
+                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(jPanel1Layout.createSequentialGroup()
+                                        .add(10, 10, 10)
+                                        .add(jButtonSuppression, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 186, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                    .add(jButtonChangePassword, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 220, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jButtonConnection, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 147, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(10, 10, 10)
+                                .add(jButtonSauvegarder, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 207, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jButtonAccesCV, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                .add(19, 19, 19)
+                .add(jLabel1)
+                .add(18, 18, 18)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jTextFieldIdentifiant, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jTextFieldNom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jTextFieldPrenom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jTextFieldMail, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jTextFieldDateDeNaissance, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jTextFieldAdresseRue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(15, 15, 15)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel9)
+                    .add(jTextFieldCodePostal, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(13, 13, 13)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel10)
+                    .add(jTextFieldVille, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel11)
+                    .add(jTextFieldTelDom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel12)
+                    .add(jTextFieldTelPro, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(15, 15, 15)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel13)
+                    .add(jTextFieldSiteWeb, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jTextFieldAnneeEntreePromotion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel15)
+                    .add(jTextFieldAnneeSortiePromotion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(14, 14, 14)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabelPassword)
+                    .add(jTextFieldPassword, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(jLabelResume)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jButtonConnection)
+                    .add(jButtonInscription))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jButtonChangePassword)
+                    .add(jButtonSauvegarder))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jButtonSuppression)
+                    .add(jButtonAccesCV))
+                .add(29, 29, 29))
+        );
+
+        desktopPane.add(jPanel1);
+        jPanel1.setBounds(30, 10, 530, 710);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Etudiants");
+
+        inscriptionMenuItem.setText("Inscription");
+        inscriptionMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inscriptionMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(inscriptionMenuItem);
 
         connexionMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         connexionMenuItem.setMnemonic('o');
@@ -102,6 +499,38 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 
         nomMenuBar.add(fileMenu);
 
+        jMenuInformationCV.setText("Informations CV");
+
+        jMenuItemExperiencePro.setText("Expérience pro");
+        jMenuInformationCV.add(jMenuItemExperiencePro);
+
+        jMenuItemFormation.setText("Formation");
+        jMenuItemFormation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemFormationActionPerformed(evt);
+            }
+        });
+        jMenuInformationCV.add(jMenuItemFormation);
+
+        jMenuItemCompetence.setText("Compétences Informatique");
+        jMenuInformationCV.add(jMenuItemCompetence);
+
+        jMenuItemLangue.setText("Langue");
+        jMenuInformationCV.add(jMenuItemLangue);
+
+        jMenuItemCentresInteret.setText("Centres d'intêret");
+        jMenuInformationCV.add(jMenuItemCentresInteret);
+
+        jMenuItemPhoto.setText("Photo");
+        jMenuItemPhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPhotoActionPerformed(evt);
+            }
+        });
+        jMenuInformationCV.add(jMenuItemPhoto);
+
+        nomMenuBar.add(jMenuInformationCV);
+
         aideMenu.setMnemonic('h');
         aideMenu.setText("Aide");
 
@@ -119,11 +548,17 @@ public class InterfaceGraphique extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(desktopPane)
+            .add(layout.createSequentialGroup()
+                .add(55, 55, 55)
+                .add(desktopPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 587, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(desktopPane)
+            .add(layout.createSequentialGroup()
+                .add(22, 22, 22)
+                .add(desktopPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -135,40 +570,356 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 
     private void connexionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connexionMenuItemActionPerformed
         // TODO add your handling code here:
-       
+
         /**
-         * création de la fenetre de connexion et attachement de cette dernière à l'interface
-         * maj de connecte en retour
-        */
-        this.fenConnexion=new Connexion(this, true);
+         * création de la fenetre de connexion et attachement de cette dernière
+         * à l'interface maj de connecte en retour
+         */
+        this.fenConnexion = new Connexion(this, true);
         this.fenConnexion.setVisible(true);
-        
+
         //JOptionPane.showMessageDialog(this, "cc");
     }//GEN-LAST:event_connexionMenuItemActionPerformed
 
     private void deconnexionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deconnexionMenuItemActionPerformed
         // TODO add your handling code here:
-        fenDeconnexion=new Deconnexion(this, true);
+        fenDeconnexion = new Deconnexion(this, true);
         this.fenDeconnexion.setVisible(true);
     }//GEN-LAST:event_deconnexionMenuItemActionPerformed
-    public void connecte(String leNom){
+
+    private void inscriptionMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inscriptionMenuItemActionPerformed
+        
+    }//GEN-LAST:event_inscriptionMenuItemActionPerformed
+
+    private void jButtonSuppressionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuppressionActionPerformed
+        this.fenSuppression = new Suppression(this, true);
+        this.fenSuppression.setVisible(true);
+    }//GEN-LAST:event_jButtonSuppressionActionPerformed
+
+    private void jButtonChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonChangePasswordActionPerformed
+        try {
+            Etudiants etudiantActuel = new Etudiants();
+            String reponse1 = JOptionPane.showInputDialog("Saisissez votre mot de passe actuel");
+            String reponse2 = Outils.md5(reponse1);
+
+            if (jTextFieldPassword.getText().equals(reponse2)) {
+                String newPassword1 = JOptionPane.showInputDialog("Saisissez votre nouveau mot de passe");
+                String newPassword2 = JOptionPane.showInputDialog("Saisissez encore une fois votre nouveau mot de passe");
+                if (newPassword1.equals(newPassword2)) {
+                    try {
+                        etudiantActuel = DaoS4.etudiantsDao().queryForId(infoEtudiant.getIdentifiant());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    etudiantActuel.setPassword(Outils.md5(newPassword1));
+                    DaoS4.etudiantsDao().createOrUpdate(etudiantActuel);
+
+                    jLabelResume.setText("Votre mot de passe a été changé");
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Les deux mots de passes ne sont pas identiques, veuillez recommencer");
+                }
+            } else {
+                JOptionPane.showInputDialog("Mot de passe incorrect");
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonChangePasswordActionPerformed
+
+    private void jButtonSauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSauvegarderActionPerformed
+        
+            try {                                                   
+                
+                Etudiants PersonneTest = new Etudiants();
+                String ancienLogin = this.nomjMenu.getText();
+                PersonneTest.setIdentifiant(jTextFieldIdentifiant.getText());
+                try {
+                    PersonneTest.setPassword(Outils.md5(jTextFieldPassword.getText()));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                PersonneTest.setNom(jTextFieldNom.getText());
+                PersonneTest.setPrenom(jTextFieldPrenom.getText());
+                PersonneTest.setMail(jTextFieldMail.getText());
+                PersonneTest.setDate_de_naissance(jTextFieldDateDeNaissance.getText());
+                PersonneTest.setAdresse_rue(jTextFieldAdresseRue.getText());
+                PersonneTest.setCode_postal(jTextFieldCodePostal.getText());
+                PersonneTest.setVille(jTextFieldVille.getText());
+                PersonneTest.setTel_personnel(jTextFieldTelDom.getText());
+                PersonneTest.setTel_professionnel(jTextFieldTelPro.getText());
+                PersonneTest.setSite_web(jTextFieldSiteWeb.getText());
+                PersonneTest.setAnnee_entree_promotion(jTextFieldAnneeEntreePromotion.getText());
+                PersonneTest.setAnnee_sortie_promotion(jTextFieldAnneeSortiePromotion.getText());
+                
+                Etudiants valeurId = DaoS4.etudiantsDao().queryForId(PersonneTest.getIdentifiant());
+                // la save doit changer les valeurs mais ne pas ecraser un autre identifiant s'il existe
+                //mais doit ecraser l'ancienne valeur si l'id ne change pas ou alors créer un nouveau tuple et effacer le precedant
+                // je doit mettre une condition pour ne pas ecraser un autre identifiant mais autoriser a ecraser l'identifiant actuel s'il ne change pas
+                if (valeurId != null) {
+                    if (PersonneTest.getIdentifiant().equals(ancienLogin)) {
+                        DaoS4.etudiantsDao().createOrUpdate(PersonneTest);
+                        jLabelResume.setText("La personne a été modifiée dans votre SI");
+                        
+                    } else {
+                        jLabelResume.setText("Cette identifiant est déja pris");
+                    }
+                } else {
+
+                    Etudiants newId = DaoS4.etudiantsDao().queryForId(ancienLogin);
+                    DaoS4.etudiantsDao().delete(newId);
+                    DaoS4.etudiantsDao().createOrUpdate(PersonneTest);
+                    jLabelResume.setText("La personne a été modifiée avec succes");
+                    this.nomjMenu.setText(PersonneTest.getIdentifiant());
+                    
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+    }//GEN-LAST:event_jButtonSauvegarderActionPerformed
+
+    private void jButtonConnectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectionActionPerformed
+        this.fenConnexion = new Connexion(this, true);
+        this.fenConnexion.setVisible(true);
+    }//GEN-LAST:event_jButtonConnectionActionPerformed
+
+    private void jButtonInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInscriptionActionPerformed
+
+        if (bouton_push == 1) {
+            Integer verification = 0;
+            if (!jTextFieldIdentifiant.getText().isEmpty()) {
+                jTextFieldIdentifiant.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+
+                jTextFieldIdentifiant.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+            if (!jTextFieldPassword.getText().isEmpty()) {
+                jTextFieldPassword.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+
+                jTextFieldPassword.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+            if (!jTextFieldNom.getText().isEmpty()) {
+                jTextFieldNom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+
+                jTextFieldNom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+
+            if (!jTextFieldNom.getText().isEmpty()) {
+
+                jTextFieldNom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+                jTextFieldNom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+            if (!jTextFieldPrenom.getText().isEmpty()) {
+                jTextFieldPrenom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+
+                jTextFieldPrenom.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+
+            if (!jTextFieldMail.getText().isEmpty()) {
+                jTextFieldMail.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.green));
+
+            } else {
+
+                jTextFieldMail.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.red));
+                verification += 1;
+            }
+
+            if (verification == 0) {
+
+               
+                    try {
+                        
+                        
+                        Etudiants PersonneTest = new Etudiants();
+                        PersonneTest.setIdentifiant(jTextFieldIdentifiant.getText());
+                        try {
+                            PersonneTest.setPassword(Outils.md5(jTextFieldPassword.getText()));
+                        } catch (NoSuchAlgorithmException ex) {
+                            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        PersonneTest.setNom(jTextFieldNom.getText());
+                        PersonneTest.setPrenom(jTextFieldPrenom.getText());
+                        PersonneTest.setMail(jTextFieldMail.getText());
+                        PersonneTest.setDate_de_naissance(jTextFieldDateDeNaissance.getText());
+                        PersonneTest.setAdresse_rue(jTextFieldAdresseRue.getText());
+                        PersonneTest.setCode_postal(jTextFieldCodePostal.getText());
+                        PersonneTest.setVille(jTextFieldVille.getText());
+                        PersonneTest.setTel_personnel(jTextFieldTelDom.getText());
+                        PersonneTest.setTel_professionnel(jTextFieldTelPro.getText());
+                        PersonneTest.setSite_web(jTextFieldSiteWeb.getText());
+                        PersonneTest.setAnnee_entree_promotion(jTextFieldAnneeEntreePromotion.getText());
+                        PersonneTest.setAnnee_sortie_promotion(jTextFieldAnneeSortiePromotion.getText());
+                        
+                        Etudiants valeurId = DaoS4.etudiantsDao().queryForId(PersonneTest.getIdentifiant());
+                        // la save doit changer les valeurs mais ne pas ecraser un autre identifiant s'il existe
+                        //mais doit ecraser l'ancienne valeur si l'id ne change pas ou alors créer un nouveau tuple et effacer le precedant
+                        // je doit mettre une condition pour ne pas ecraser un autre identifiant mais autoriser a ecraser l'identifiant actuel s'il ne change pas
+                        if (valeurId != null) {
+                            jLabelResume.setText("Cette identifiant est déja pris");
+                            
+                        } else {
+                            
+                            try {
+                                DaoS4.etudiantsDao().createOrUpdate(PersonneTest);
+                                jLabelResume.setText("L'inscription s'est déroulé avec succes");
+                                this.nomjMenu.setText(PersonneTest.getIdentifiant());
+                                this.fenConnexion = new Connexion(this, true);
+                                this.fenConnexion.setVisible(true);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+               
+            } else {
+                jLabelResume.setVisible(true);
+
+                jLabelResume.setText("Un champ est mal renseigné ou l'id existe déja");
+            }
+        } else {
+            jLabelPassword.setVisible(true);
+            jTextFieldPassword.setVisible(true);
+            bouton_push = 1;
+        }
+
+    }//GEN-LAST:event_jButtonInscriptionActionPerformed
+
+    private void jTextFieldAdresseRueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAdresseRueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAdresseRueActionPerformed
+
+    private void jTextFieldIdentifiantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIdentifiantActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldIdentifiantActionPerformed
+
+    private void jButtonAccesCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAccesCVActionPerformed
+        try {
+            Etudiants etudiantsEnvoi = null ;
+            etudiantsEnvoi = DaoS4.etudiantsDao().queryForId(infoEtudiant.getIdentifiant());
+            fenCV = new CVetudiant(this, true, etudiantsEnvoi, null);
+            this.fenCV.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButtonAccesCVActionPerformed
+
+    private void jMenuItemFormationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFormationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemFormationActionPerformed
+
+    private void jMenuItemPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPhotoActionPerformed
+        try {
+            Etudiants etudiantsEnvoi = null;
+            etudiantsEnvoi = DaoS4.etudiantsDao().queryForId(infoEtudiant.getIdentifiant());
+            panneauPhoto = new PanneauPhoto(this, true, etudiantsEnvoi);
+            panneauPhoto.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItemPhotoActionPerformed
+    public void connecte(Etudiants etudiant) {
         //maj de l'etat de la connexion
-        this.connecte=true;
+        this.connecte = true;
         //ajout du nom dans la fenetre
-        this.nomjMenu.setText("Connecté en tant que : "+leNom);
+        this.nomjMenu.setText(etudiant.getIdentifiant());
+        this.jTextFieldIdentifiant.setText(etudiant.getIdentifiant());
+        this.jTextFieldPassword.setText(etudiant.getPassword());
+        this.jTextFieldNom.setText(etudiant.getNom());
+        this.jTextFieldPrenom.setText(etudiant.getPrenom());
+        this.jTextFieldMail.setText(etudiant.getMail());
+        this.jTextFieldDateDeNaissance.setText(etudiant.getDate_de_naissance());
+        this.jTextFieldAdresseRue.setText(etudiant.getAdresse_rue());
+        this.jTextFieldCodePostal.setText(etudiant.getCode_postal());
+        this.jTextFieldVille.setText(etudiant.getVille());
+        this.jTextFieldTelDom.setText(etudiant.getTel_personnel());
+        this.jTextFieldTelPro.setText(etudiant.getTel_professionnel());
+        this.jTextFieldSiteWeb.setText(etudiant.getSite_web());
+        this.jTextFieldAnneeEntreePromotion.setText(etudiant.getAnnee_entree_promotion());
+        this.jTextFieldAnneeSortiePromotion.setText(etudiant.getAnnee_sortie_promotion());
+        infoEtudiant = etudiant;
         this.nomjMenu.setEnabled(false);
-        
-        
+        jButtonInscription.setVisible(false);
+        jButtonConnection.setVisible(false);
+        jButtonSauvegarder.setVisible(true);
+        jButtonChangePassword.setVisible(true);
+        jButtonSuppression.setVisible(true);
+
+        jLabelPassword.setVisible(false);
+        jTextFieldPassword.setVisible(false);
+
     }
-    public void deconnecte(){
-        this.connecte=false;
+
+    public void deconnecte() {
+
+        this.connecte = false;
         this.nomjMenu.setText(null);
+        this.jTextFieldIdentifiant.setText("");
+        this.jTextFieldPassword.setText("");
+        this.jTextFieldNom.setText("");
+        this.jTextFieldPrenom.setText("");
+        this.jTextFieldMail.setText("");
+        this.jTextFieldDateDeNaissance.setText("");
+        this.jTextFieldAdresseRue.setText("");
+        this.jTextFieldCodePostal.setText("");
+        this.jTextFieldVille.setText("");
+        this.jTextFieldTelDom.setText("");
+        this.jTextFieldTelPro.setText("");
+        this.jTextFieldSiteWeb.setText("");
+        this.jTextFieldAnneeEntreePromotion.setText("");
+        this.jTextFieldAnneeSortiePromotion.setText("");
+        jLabelPassword.setVisible(false);
+        jTextFieldPassword.setVisible(false);
+        bouton_push = 0;
+
+        jButtonInscription.setVisible(true);
+        jButtonConnection.setVisible(true);
+        jButtonSauvegarder.setVisible(false);
+        jButtonChangePassword.setVisible(false);
+        jButtonSuppression.setVisible(false);
+        jLabelResume.setText("");
+        
     }
-    public void majConnexion(){
+
+    public void majConnexion() {
         deconnexionMenuItem.setEnabled(this.connecte);
         connexionMenuItem.setEnabled(!this.connecte);
+        inscriptionMenuItem.setEnabled(!this.connecte);
+        this.deconnexionMenuItem.setEnabled(!connecte);
+        this.inscriptionMenuItem.setEnabled(connecte);
+        this.connexionMenuItem.setEnabled(connecte);
     }
+public void suppression(Etudiants etudiant){
     
+        try {
+            DaoS4.etudiantsDao().delete(etudiant);
+            this.majConnexion();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceGraphique.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
     /**
      * @param args the command line arguments
      */
@@ -211,7 +962,54 @@ public class InterfaceGraphique extends javax.swing.JFrame {
     private javax.swing.JMenuItem deconnexionMenuItem;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JMenuItem inscriptionMenuItem;
+    private javax.swing.JButton jButtonAccesCV;
+    private javax.swing.JButton jButtonChangePassword;
+    private javax.swing.JButton jButtonConnection;
+    private javax.swing.JButton jButtonInscription;
+    private javax.swing.JButton jButtonSauvegarder;
+    private javax.swing.JButton jButtonSuppression;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelPassword;
+    private javax.swing.JLabel jLabelResume;
+    private javax.swing.JMenu jMenuInformationCV;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemCentresInteret;
+    private javax.swing.JMenuItem jMenuItemCompetence;
+    private javax.swing.JMenuItem jMenuItemExperiencePro;
+    private javax.swing.JMenuItem jMenuItemFormation;
+    private javax.swing.JMenuItem jMenuItemLangue;
+    private javax.swing.JMenuItem jMenuItemPhoto;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldAdresseRue;
+    private javax.swing.JTextField jTextFieldAnneeEntreePromotion;
+    private javax.swing.JTextField jTextFieldAnneeSortiePromotion;
+    private javax.swing.JTextField jTextFieldCodePostal;
+    private javax.swing.JTextField jTextFieldDateDeNaissance;
+    private javax.swing.JTextField jTextFieldIdentifiant;
+    private javax.swing.JTextField jTextFieldMail;
+    private javax.swing.JTextField jTextFieldNom;
+    private javax.swing.JTextField jTextFieldPassword;
+    private javax.swing.JTextField jTextFieldPrenom;
+    private javax.swing.JTextField jTextFieldSiteWeb;
+    private javax.swing.JTextField jTextFieldTelDom;
+    private javax.swing.JTextField jTextFieldTelPro;
+    private javax.swing.JTextField jTextFieldVille;
     private javax.swing.JMenuBar nomMenuBar;
     private javax.swing.JMenu nomjMenu;
     // End of variables declaration//GEN-END:variables

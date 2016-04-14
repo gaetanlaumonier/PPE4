@@ -4,29 +4,37 @@
  */
 package appli_etudiants;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  *
  * @author nc
  */
+@DatabaseTable(tableName = "utilisateurs")
 public class Etudiants extends Personne{
-    private String login;
-    private String mot_de_passe;
+    
+    @DatabaseField(id = true)
+    private String identifiant;
+        
+    @DatabaseField(canBeNull=true)
+    private String password;
     
     //accesseurs
-    public String getLogin() {
-        return login;
+    public String getIdentifiant() {
+        return identifiant;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setIdentifiant(String identifiant) {
+        this.identifiant = identifiant;
     }
 
-    public String getMot_de_passe() {
-        return mot_de_passe;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMot_de_passe(String mot_de_passe) {
-        this.mot_de_passe = mot_de_passe;
+    public void setPassword(String password) {
+        this.password = password;
     }
      
 }
